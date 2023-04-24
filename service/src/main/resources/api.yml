@@ -5,7 +5,7 @@ info:
 servers:
   - url: 'http://localhost:3000'
 paths:
-  /rooms:
+  /rooms/{id}:
     get:
       summary: 'Return a room by ID'
       operationId: getRoom
