@@ -13,6 +13,7 @@ import br.com.sw2you.realmeet.utils.TestDataCreator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.client.HttpClientErrorException;
 
 class RoomApiIntegrationTest extends BaseIntegrationTest {
 
@@ -41,5 +42,19 @@ class RoomApiIntegrationTest extends BaseIntegrationTest {
         assertEquals(room.getSeats(), dto.getSeats());
         assertEquals(room.getId(), dto.getId());
 
+    }
+
+    @Test
+    void testGetRoomInactive() {
+        var room = roomBuilder().active(false).build();
+
+        assertFalse(room.getActive());
+
+        assertThrows(HttpClientErrorException.class, () -> roomApi.getRoom(room.getId()));
+    }
+
+    @Test
+    void testGetRoomDoesNotExist() {
+        assertThrows(HttpClientErrorException.NotFound.class, () -> roomApi.getRoom(DEFAULT_ROOM_ID));
     }
 }
