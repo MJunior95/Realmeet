@@ -33,7 +33,7 @@ class RoomValidatorUnitTest  extends BaseUnitTest {
     }
     @Test
     void testValueWhenRoomNameIsMissing(){
-      var exception = assertThrows(InvalidRequestException.class, () -> victim.validate(newCreateRoomDTO().name(null)));
+      var exception = assertThrows(InvalidRequestException.class, () -> victim.validate(newCreateRoomDTO().name("")));
 
       assertEquals(1, exception.getValidationErrors().getNumbersOfErrors());
       assertEquals(new ValidationError(ROOM_NAME, ROOM_NAME + MISSING), exception.getValidationErrors().getError(0));
