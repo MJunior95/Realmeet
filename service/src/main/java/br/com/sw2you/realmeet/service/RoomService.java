@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Objects;
 
+import br.com.sw2you.realmeet.api.model.CreateRoomDTO;
 import br.com.sw2you.realmeet.api.model.RoomDTO;
 import br.com.sw2you.realmeet.domain.entity.Room;
 import br.com.sw2you.realmeet.domain.repository.RoomRepository;
@@ -26,5 +27,10 @@ public class RoomService {
         requireNonNull(id);
        Room room =  roomRepository.findByIdAndActive(id, true).orElseThrow(() -> new RoomNotFoundException("Room: " + id + " not Found"));
        return roomMapper.fromEntityToDto(room);
+    }
+    public RoomDTO createRoom(CreateRoomDTO createRoomDTO){
+         var room  = roomMapper.fromCreateRoomDTOToEntity(createRoomDTO);
+         roomRepository.save(room);
+         return roomMapper.fromEntityToDto(room);
     }
 }
