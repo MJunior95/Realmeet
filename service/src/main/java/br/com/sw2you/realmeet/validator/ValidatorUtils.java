@@ -20,7 +20,7 @@ public final class ValidatorUtils {
     }
 
     public static boolean validateRequired(String field, String fieldName, ValidationErrors validationErrors){
-        if(isBlank(fieldName)){
+        if(isBlank(field)){
             validationErrors.add(fieldName, fieldName + MISSING);
             return false;
         }
