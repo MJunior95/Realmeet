@@ -10,7 +10,7 @@ public class ValidationErrors implements Streamable<ValidationError> {
 
     private final List<ValidationError> validationErrorList;
 
-    public ValidationErrors(List<ValidationError> validationErrorList) {
+    public ValidationErrors() {
         this.validationErrorList = new ArrayList<>();
     }
 
