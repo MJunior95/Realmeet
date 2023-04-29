@@ -1,8 +1,7 @@
 package br.com.sw2you.realmeet.unit;
 
 import static br.com.sw2you.realmeet.utils.TestDataCreator.newCreateRoomDTO;
-import static br.com.sw2you.realmeet.validator.ValidatorConstants.MISSING;
-import static br.com.sw2you.realmeet.validator.ValidatorConstants.ROOM_NAME;
+import static br.com.sw2you.realmeet.validator.ValidatorConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -37,5 +36,12 @@ class RoomValidatorUnitTest  extends BaseUnitTest {
 
       assertEquals(1, exception.getValidationErrors().getNumbersOfErrors());
       assertEquals(new ValidationError(ROOM_NAME, ROOM_NAME + MISSING), exception.getValidationErrors().getError(0));
+    }
+    @Test
+    void testValueWhenRoomSeatsIsMissing(){
+      var exception = assertThrows(InvalidRequestException.class, () -> victim.validate(newCreateRoomDTO().seats(null)));
+
+      assertEquals(1, exception.getValidationErrors().getNumbersOfErrors());
+      assertEquals(new ValidationError(ROOM_SEATS, ROOM_SEATS + MISSING), exception.getValidationErrors().getError(0));
     }
 }
