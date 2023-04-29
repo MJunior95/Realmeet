@@ -27,7 +27,7 @@ public final class ValidatorUtils {
         return true;
     }
     public static boolean validateRequired(Object field, String fieldName, ValidationErrors validationErrors){
-        if(isNull(fieldName)){
+        if(isNull(field)){
             validationErrors.add(fieldName, fieldName + MISSING);
             return false;
         }

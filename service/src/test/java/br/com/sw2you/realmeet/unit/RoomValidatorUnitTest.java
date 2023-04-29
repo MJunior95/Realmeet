@@ -12,6 +12,7 @@ import br.com.sw2you.realmeet.validator.RoomValidator;
 import br.com.sw2you.realmeet.validator.ValidationError;
 import br.com.sw2you.realmeet.validator.ValidationErrors;
 import br.com.sw2you.realmeet.validator.ValidatorConstants;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,11 +38,33 @@ class RoomValidatorUnitTest  extends BaseUnitTest {
       assertEquals(1, exception.getValidationErrors().getNumbersOfErrors());
       assertEquals(new ValidationError(ROOM_NAME, ROOM_NAME + MISSING), exception.getValidationErrors().getError(0));
     }
+
+    @Test
+    void testValueWhenRoomNameExceedsLenght(){
+        var exception = assertThrows(InvalidRequestException.class, () -> victim.validate(newCreateRoomDTO().name(StringUtils.rightPad("x",  ROOM_NAME_MAX_LENGTH + 1 , 'x'))));
+
+        assertEquals(1, exception.getValidationErrors().getNumbersOfErrors());
+        assertEquals(new ValidationError(ROOM_NAME, ROOM_NAME + MAX_LENGTH), exception.getValidationErrors().getError(0));
+    }
     @Test
     void testValueWhenRoomSeatsIsMissing(){
       var exception = assertThrows(InvalidRequestException.class, () -> victim.validate(newCreateRoomDTO().seats(null)));
 
       assertEquals(1, exception.getValidationErrors().getNumbersOfErrors());
       assertEquals(new ValidationError(ROOM_SEATS, ROOM_SEATS + MISSING), exception.getValidationErrors().getError(0));
+    }
+    @Test
+    void testValueWhenRoomSeatsAreLessThanMinValue(){
+      var exception = assertThrows(InvalidRequestException.class, () -> victim.validate(newCreateRoomDTO().seats(ROOM_SEATS_MIN_VALUE - 1)));
+
+      assertEquals(1, exception.getValidationErrors().getNumbersOfErrors());
+      assertEquals(new ValidationError(ROOM_SEATS, ROOM_SEATS + BELOW_MIN_VALUE), exception.getValidationErrors().getError(0));
+    }
+    @Test
+    void testValueWhenRoomSeatsAreGreaterThanMaxValue(){
+      var exception = assertThrows(InvalidRequestException.class, () -> victim.validate(newCreateRoomDTO().seats(ROOM_SEATS_MAX_VALUE +1)));
+
+      assertEquals(1, exception.getValidationErrors().getNumbersOfErrors());
+      assertEquals(new ValidationError(ROOM_SEATS, ROOM_SEATS + EXCEEDS_MAX_VALUE), exception.getValidationErrors().getError(0));
     }
 }
