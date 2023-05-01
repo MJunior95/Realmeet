@@ -77,17 +77,21 @@ components:
     ResponseError:
       type: object
       required:
-        - code
-        - message
+        - field
+        - errorCode
       properties:
-        code:
-          type: integer
-          format: int32
-        status:
+        field:
           type: string
-        message:
+        errorCode:
           type: string
 
   responses:
     UnprocessableEntity:
       description: The server undertands the content type of the request entity but was unable to process the cointained instructions.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/ResponseError'
+

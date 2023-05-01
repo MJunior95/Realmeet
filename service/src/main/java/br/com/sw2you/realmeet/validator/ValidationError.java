@@ -2,14 +2,23 @@ package br.com.sw2you.realmeet.validator;
 
 import java.util.Objects;
 
+
 public class ValidationError {
 
     private final String field;
-    private final String erroCode;
+    private final String errorCode;
+
+    public String getErrorCode() {
+        return errorCode;
+    }
+
+    public String getField() {
+        return field;
+    }
 
     public ValidationError(String field, String erroCode) {
         this.field = field;
-        this.erroCode = erroCode;
+        this.errorCode = erroCode;
     }
 
     @Override
@@ -17,19 +26,19 @@ public class ValidationError {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ValidationError that = (ValidationError) o;
-        return Objects.equals(field, that.field) && Objects.equals(erroCode, that.erroCode);
+        return Objects.equals(field, that.field) && Objects.equals(errorCode, that.errorCode);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(field, erroCode);
+        return Objects.hash(field, errorCode);
     }
 
     @Override
     public String toString() {
         return "ValidationError{" +
                 "field='" + field + '\'' +
-                ", erroCode='" + erroCode + '\'' +
+                ", erroCode='" + errorCode + '\'' +
                 '}';
     }
 }
