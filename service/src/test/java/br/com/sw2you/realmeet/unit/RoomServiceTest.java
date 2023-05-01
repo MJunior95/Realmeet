@@ -3,10 +3,12 @@ package br.com.sw2you.realmeet.unit;
 import static br.com.sw2you.realmeet.domain.entity.Room.newBuilder;
 import static br.com.sw2you.realmeet.utils.MapperUtils.roomMapper;
 import static br.com.sw2you.realmeet.utils.TestConstants.DEFAULT_ROOM_ID;
+import static br.com.sw2you.realmeet.utils.TestDataCreator.newCreateRoomDTO;
 import static br.com.sw2you.realmeet.utils.TestDataCreator.roomBuilder;
 import static java.util.Optional.of;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 import java.util.Optional;
 
@@ -61,4 +63,15 @@ class RoomServiceTest extends BaseUnitTest {
         Assertions.assertThrows(RoomNotFoundException.class, () -> victim.getRoom(DEFAULT_ROOM_ID));
     }
 
+    @Test
+    void testCreateRoomSuccess(){
+        var createRoomDTO = newCreateRoomDTO();
+        var roomDTO = victim.createRoom(createRoomDTO);
+
+        assertEquals(createRoomDTO.getName(), roomDTO.getName());
+        assertEquals(createRoomDTO.getSeats(), roomDTO.getSeats());
+
+        verify(repository, times(1)).save(any());
+
+    }
 }
