@@ -19,22 +19,34 @@ public class RoomValidator {
 
     public void validate(CreateRoomDTO createRoomDTO){
         var validationErrors = new ValidationErrors();
-        validateRequired(createRoomDTO.getName(), ROOM_NAME, validationErrors);
-        validateMaxLength(createRoomDTO.getName(), ROOM_NAME, ROOM_NAME_MAX_LENGTH, validationErrors);
+        if(validateName(createRoomDTO.getName(), validationErrors)
+                && validateSeats(createRoomDTO.getSeats(), validationErrors)){
+            validateNameDuplicate(createRoomDTO.getName(), validationErrors);
+        }
 
-        validateRequired(createRoomDTO.getSeats(), ROOM_SEATS, validationErrors);
-        validateMinValue(createRoomDTO.getSeats(), ROOM_SEATS,ROOM_SEATS_MIN_VALUE, validationErrors);
-        validateMaxValue(createRoomDTO.getSeats(), ROOM_SEATS,ROOM_SEATS_MAX_VALUE, validationErrors);
 
         throwOnError(validationErrors);
 
-        validateNameDuplicate(createRoomDTO.getName());
+
     }
 
-    private void validateNameDuplicate(String name){
+    private boolean validateSeats(Integer seats, ValidationErrors validationErrors) {
+      return (validateRequired(seats, ROOM_SEATS, validationErrors) &&
+        validateMinValue(seats, ROOM_SEATS,ROOM_SEATS_MIN_VALUE, validationErrors) &&
+        validateMaxValue(seats, ROOM_SEATS,ROOM_SEATS_MAX_VALUE, validationErrors));
+    }
+
+    private boolean validateName(String name ,ValidationErrors validationErrors) {
+        return (
+                validateRequired(name, ROOM_NAME, validationErrors) &&
+                validateMaxLength(name, ROOM_NAME, ROOM_NAME_MAX_LENGTH, validationErrors)
+        );
+    }
+
+
+    private void validateNameDuplicate(String name, ValidationErrors validationErrors){
         roomRepository.findByNameAndActive(name, true)
-                .ifPresent(x -> {
-                    throw new InvalidRequestException(new ValidationError(ROOM_NAME, ROOM_NAME + DUPLICATE));
-                });
+                .ifPresent(x -> validationErrors.add(ROOM_NAME, ROOM_NAME + DUPLICATE));
+
     }
 }
