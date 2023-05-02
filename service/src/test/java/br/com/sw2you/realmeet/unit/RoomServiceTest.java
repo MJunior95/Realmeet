@@ -1,6 +1,5 @@
 package br.com.sw2you.realmeet.unit;
 
-import static br.com.sw2you.realmeet.domain.entity.Room.newBuilder;
 import static br.com.sw2you.realmeet.utils.MapperUtils.roomMapper;
 import static br.com.sw2you.realmeet.utils.TestConstants.DEFAULT_ROOM_ID;
 import static br.com.sw2you.realmeet.utils.TestDataCreator.newCreateRoomDTO;
@@ -15,19 +14,12 @@ import java.util.Optional;
 import br.com.sw2you.realmeet.core.BaseUnitTest;
 import br.com.sw2you.realmeet.domain.repository.RoomRepository;
 import br.com.sw2you.realmeet.exception.RoomNotFoundException;
-import br.com.sw2you.realmeet.mapper.RoomMapper;
 import br.com.sw2you.realmeet.service.RoomService;
-import br.com.sw2you.realmeet.utils.MapperUtils;
-import br.com.sw2you.realmeet.utils.TestConstants;
-import br.com.sw2you.realmeet.utils.TestDataCreator;
 import br.com.sw2you.realmeet.validator.RoomValidator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 class RoomServiceTest extends BaseUnitTest {
 

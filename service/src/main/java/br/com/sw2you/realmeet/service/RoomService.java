@@ -2,7 +2,6 @@ package br.com.sw2you.realmeet.service;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.Objects;
 
 import br.com.sw2you.realmeet.api.model.CreateRoomDTO;
 import br.com.sw2you.realmeet.api.model.RoomDTO;

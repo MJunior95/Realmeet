@@ -5,7 +5,6 @@ import static br.com.sw2you.realmeet.validator.ValidatorUtils.*;
 
 import br.com.sw2you.realmeet.api.model.CreateRoomDTO;
 import br.com.sw2you.realmeet.domain.repository.RoomRepository;
-import br.com.sw2you.realmeet.exception.InvalidRequestException;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -7,13 +7,9 @@ import static br.com.sw2you.realmeet.utils.TestDataCreator.newCreateRoomDTO;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import br.com.sw2you.realmeet.core.BaseUnitTest;
-import br.com.sw2you.realmeet.domain.entity.Room;
 import br.com.sw2you.realmeet.mapper.RoomMapper;
-import br.com.sw2you.realmeet.utils.TestConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 class RoomMapperTest extends BaseUnitTest {
 

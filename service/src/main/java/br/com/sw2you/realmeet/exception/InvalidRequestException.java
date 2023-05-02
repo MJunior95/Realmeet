@@ -1,6 +1,5 @@
 package br.com.sw2you.realmeet.exception;
 
-import java.util.List;
 
 import br.com.sw2you.realmeet.validator.ValidationError;
 import br.com.sw2you.realmeet.validator.ValidationErrors;

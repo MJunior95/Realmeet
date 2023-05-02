@@ -8,8 +8,6 @@ import java.util.stream.Collectors;
 import br.com.sw2you.realmeet.api.model.ResponseError;
 import br.com.sw2you.realmeet.exception.InvalidRequestException;
 import br.com.sw2you.realmeet.exception.RoomNotFoundException;
-import br.com.sw2you.realmeet.util.ResponseEntityUtils;
-import org.springframework.data.web.ReactivePageableHandlerMethodArgumentResolver;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
