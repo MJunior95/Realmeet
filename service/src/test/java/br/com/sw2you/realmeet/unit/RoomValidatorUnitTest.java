@@ -1,19 +1,26 @@
 package br.com.sw2you.realmeet.unit;
 
+import static br.com.sw2you.realmeet.utils.TestConstants.DEFAULT_ROOM_NAME;
 import static br.com.sw2you.realmeet.utils.TestDataCreator.newCreateRoomDTO;
+import static br.com.sw2you.realmeet.utils.TestDataCreator.roomBuilder;
 import static br.com.sw2you.realmeet.validator.ValidatorConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.BDDMockito.given;
+
+import java.util.Optional;
 
 import br.com.sw2you.realmeet.core.BaseUnitTest;
 import br.com.sw2you.realmeet.domain.repository.RoomRepository;
 import br.com.sw2you.realmeet.exception.InvalidRequestException;
+import br.com.sw2you.realmeet.utils.TestConstants;
 import br.com.sw2you.realmeet.utils.TestDataCreator;
 import br.com.sw2you.realmeet.validator.RoomValidator;
 import br.com.sw2you.realmeet.validator.ValidationError;
 import br.com.sw2you.realmeet.validator.ValidationErrors;
 import br.com.sw2you.realmeet.validator.ValidatorConstants;
 import org.apache.commons.lang3.StringUtils;
+import org.assertj.core.api.BDDAssumptions;
 import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -71,5 +78,16 @@ class RoomValidatorUnitTest  extends BaseUnitTest {
 
       assertEquals(1, exception.getValidationErrors().getNumbersOfErrors());
       assertEquals(new ValidationError(ROOM_SEATS, ROOM_SEATS + EXCEEDS_MAX_VALUE), exception.getValidationErrors().getError(0));
+    }
+
+    @Test
+    void testValidadeWhenRoomNameIsDuplicate(){
+        given(roomRepository.findByNameAndActive(DEFAULT_ROOM_NAME, true))
+                .willReturn(Optional.of(roomBuilder().build()));
+        var exception = assertThrows(InvalidRequestException.class, () -> victim.validate(newCreateRoomDTO()));
+
+        assertEquals(1, exception.getValidationErrors().getNumbersOfErrors());
+        assertEquals(new ValidationError(ROOM_NAME, ROOM_NAME + DUPLICATE), exception.getValidationErrors().getError(0));
+
     }
 }
