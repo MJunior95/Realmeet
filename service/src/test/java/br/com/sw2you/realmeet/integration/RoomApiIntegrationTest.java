@@ -8,7 +8,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import br.com.sw2you.realmeet.api.facade.RoomApi;
 import br.com.sw2you.realmeet.core.BaseIntegrationTest;
+import br.com.sw2you.realmeet.domain.entity.Room;
 import br.com.sw2you.realmeet.domain.repository.RoomRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.HttpClientErrorException;
@@ -69,6 +71,18 @@ class RoomApiIntegrationTest extends BaseIntegrationTest {
 
         assertEquals(roomDTO.getName(), room.getName());
         assertEquals(roomDTO.getSeats(), room.getSeats());
+    }
+
+    @Test
+    void testeDeleteRunSuccess(){
+      Long roomId =  roomRepository.saveAndFlush(roomBuilder().build()).getId();
+        roomApi.deleteRoom(roomId);
+
+        assertFalse(roomRepository.findById(roomId).orElseThrow().getActive());
+    }
+    @Test
+    void testeDeleteDoesNotExist(){
+        assertThrows(HttpClientErrorException.NotFound.class, () -> roomApi.deleteRoom(123l));
     }
 
 
