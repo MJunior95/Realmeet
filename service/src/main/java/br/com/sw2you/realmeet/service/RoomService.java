@@ -39,7 +39,7 @@ public class RoomService {
 
     public void deleteRoom(Long id){
         Room room = getActiveRoomOrThrow(id);
-
+        roomRepository.deactivate(id);
 
     }
 
