@@ -5,6 +5,7 @@ import static java.util.Objects.requireNonNull;
 
 import br.com.sw2you.realmeet.api.model.CreateRoomDTO;
 import br.com.sw2you.realmeet.api.model.RoomDTO;
+import br.com.sw2you.realmeet.api.model.UpdateRoomDTO;
 import br.com.sw2you.realmeet.domain.entity.Room;
 import br.com.sw2you.realmeet.domain.repository.RoomRepository;
 import br.com.sw2you.realmeet.exception.RoomNotFoundException;
@@ -48,6 +49,12 @@ public class RoomService {
     private Room getActiveRoomOrThrow(Long id) {
         requireNonNull(id);
         return roomRepository.findByIdAndActive(id, true).orElseThrow(() -> new RoomNotFoundException("Room: " + id + " not Found"));
+    }
+
+    @Transactional
+    public void updateRoom(Long roomId, UpdateRoomDTO updateRoomDTO){
+        getActiveRoomOrThrow(roomId);
+        roomRepository.updateRoom(roomId, updateRoomDTO.getName(), updateRoomDTO.getSeats());
     }
 
 }

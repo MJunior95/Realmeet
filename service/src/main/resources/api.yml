@@ -48,7 +48,7 @@ paths:
           description: Not Found
     put:
       summary: 'Update a room by ID'
-      operationId: updateROOM
+      operationId: updateRoom
       tags:
         - room
       parameters:
