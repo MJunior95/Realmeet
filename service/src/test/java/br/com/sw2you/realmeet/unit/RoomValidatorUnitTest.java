@@ -10,6 +10,7 @@ import static org.mockito.BDDMockito.given;
 
 import java.util.Optional;
 
+import br.com.sw2you.realmeet.api.model.CreateRoomDTO;
 import br.com.sw2you.realmeet.core.BaseUnitTest;
 import br.com.sw2you.realmeet.domain.repository.RoomRepository;
 import br.com.sw2you.realmeet.exception.InvalidRequestException;
@@ -38,7 +39,7 @@ class RoomValidatorUnitTest  extends BaseUnitTest {
     }
     @Test
     void testValueWhenRoomNameIsMissing(){
-      var exception = assertThrows(InvalidRequestException.class, () -> victim.validate(newCreateRoomDTO().name("")));
+      var exception = assertThrows(InvalidRequestException.class, () -> victim.validate((CreateRoomDTO) newCreateRoomDTO().name("")));
 
       assertEquals(1, exception.getValidationErrors().getNumbersOfErrors());
       assertEquals(new ValidationError(ROOM_NAME, ROOM_NAME + MISSING), exception.getValidationErrors().getError(0));
@@ -46,28 +47,28 @@ class RoomValidatorUnitTest  extends BaseUnitTest {
 
     @Test
     void testValueWhenRoomNameExceedsLenght(){
-        var exception = assertThrows(InvalidRequestException.class, () -> victim.validate(newCreateRoomDTO().name(StringUtils.rightPad("x",  ROOM_NAME_MAX_LENGTH + 1 , 'x'))));
+        var exception = assertThrows(InvalidRequestException.class, () -> victim.validate((CreateRoomDTO) newCreateRoomDTO().name(StringUtils.rightPad("x",  ROOM_NAME_MAX_LENGTH + 1 , 'x'))));
 
         assertEquals(1, exception.getValidationErrors().getNumbersOfErrors());
         assertEquals(new ValidationError(ROOM_NAME, ROOM_NAME + MAX_LENGTH), exception.getValidationErrors().getError(0));
     }
     @Test
     void testValueWhenRoomSeatsIsMissing(){
-      var exception = assertThrows(InvalidRequestException.class, () -> victim.validate(newCreateRoomDTO().seats(null)));
+      var exception = assertThrows(InvalidRequestException.class, () -> victim.validate((CreateRoomDTO) newCreateRoomDTO().seats(null)));
 
       assertEquals(1, exception.getValidationErrors().getNumbersOfErrors());
       assertEquals(new ValidationError(ROOM_SEATS, ROOM_SEATS + MISSING), exception.getValidationErrors().getError(0));
     }
     @Test
     void testValueWhenRoomSeatsAreLessThanMinValue(){
-      var exception = assertThrows(InvalidRequestException.class, () -> victim.validate(newCreateRoomDTO().seats(ROOM_SEATS_MIN_VALUE - 1)));
+      var exception = assertThrows(InvalidRequestException.class, () -> victim.validate((CreateRoomDTO) newCreateRoomDTO().seats(ROOM_SEATS_MIN_VALUE - 1)));
 
       assertEquals(1, exception.getValidationErrors().getNumbersOfErrors());
       assertEquals(new ValidationError(ROOM_SEATS, ROOM_SEATS + BELOW_MIN_VALUE), exception.getValidationErrors().getError(0));
     }
     @Test
     void testValueWhenRoomSeatsAreGreaterThanMaxValue(){
-      var exception = assertThrows(InvalidRequestException.class, () -> victim.validate(newCreateRoomDTO().seats(ROOM_SEATS_MAX_VALUE +1)));
+      var exception = assertThrows(InvalidRequestException.class, () -> victim.validate((CreateRoomDTO) newCreateRoomDTO().seats(ROOM_SEATS_MAX_VALUE +1)));
 
       assertEquals(1, exception.getValidationErrors().getNumbersOfErrors());
       assertEquals(new ValidationError(ROOM_SEATS, ROOM_SEATS + EXCEEDS_MAX_VALUE), exception.getValidationErrors().getError(0));
