@@ -56,7 +56,7 @@ public class RoomValidator {
     private void validateNameDuplicate(Long roomIdToExlude, String name, ValidationErrors validationErrors){
         roomRepository.findByNameAndActive(name, true)
                 .ifPresent(room -> {
-                    if(!isNull(roomIdToExlude) && !Objects.equals(room.getId(), roomIdToExlude)){
+                    if(isNull(roomIdToExlude) || !Objects.equals(room.getId(), roomIdToExlude)){
                         validationErrors.add(ROOM_NAME, ROOM_NAME + DUPLICATE);
                     }
                 });
