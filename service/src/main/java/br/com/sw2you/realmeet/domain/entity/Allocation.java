@@ -16,6 +16,7 @@ public class Allocation {
     @ManyToOne
     @JoinColumn(name = "room_id")
     private Room room;
+    @Embedded
     private Employee employee;
     @Column(name = "subject")
     private String subject;
