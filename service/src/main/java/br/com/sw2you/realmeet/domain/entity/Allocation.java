@@ -1,18 +1,31 @@
 package br.com.sw2you.realmeet.domain.entity;
 
+import javax.persistence.*;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 
 import br.com.sw2you.realmeet.domain.model.Employee;
 
+@Entity
+@Table(name = "allocation")
 public class Allocation {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @ManyToOne
+    @JoinColumn(name = "room_id")
     private Room room;
     private Employee employee;
+    @Column(name = "subject")
     private String subject;
+    @Column(name = "start_at")
     private OffsetDateTime startAt;
+    @Column(name = "end_at")
     private OffsetDateTime endAt;
+    @Column(name = "create_at")
+    private OffsetDateTime createAt;
+    @Column(name = "update_at")
     private OffsetDateTime updateAt;
 
     public Allocation(Builder builder) {
@@ -22,6 +35,7 @@ public class Allocation {
         subject = builder.subject;
         startAt = builder.startAt;
         endAt = builder.endAt;
+        createAt = builder.createAt;
         updateAt = builder.updateAt;
     }
 
@@ -50,6 +64,9 @@ public class Allocation {
     public OffsetDateTime getEndAt() {
         return endAt;
     }
+    public OffsetDateTime getCreateAt() {
+        return createAt;
+    }
 
     public OffsetDateTime getUpdateAt() {
         return updateAt;
@@ -60,12 +77,12 @@ public class Allocation {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Allocation that = (Allocation) o;
-        return id.equals(that.id) && room.equals(that.room) && employee.equals(that.employee) && subject.equals(that.subject) && startAt.equals(that.startAt) && endAt.equals(that.endAt) && updateAt.equals(that.updateAt);
+        return Objects.equals(id, that.id) && Objects.equals(room, that.room) && Objects.equals(employee, that.employee) && Objects.equals(subject, that.subject) && Objects.equals(startAt, that.startAt) && Objects.equals(endAt, that.endAt) && Objects.equals(createAt, that.createAt) && Objects.equals(updateAt, that.updateAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, room, employee, subject, startAt, endAt, updateAt);
+        return Objects.hash(id, room, employee, subject, startAt, endAt, createAt, updateAt);
     }
 
     @Override
@@ -77,6 +94,7 @@ public class Allocation {
                 ", subject='" + subject + '\'' +
                 ", startAt=" + startAt +
                 ", endAt=" + endAt +
+                ", createAt=" + createAt +
                 ", updateAt=" + updateAt +
                 '}';
     }
@@ -91,6 +109,7 @@ public class Allocation {
         private String subject;
         private OffsetDateTime startAt;
         private OffsetDateTime endAt;
+        private OffsetDateTime createAt;
         private OffsetDateTime updateAt;
 
         private Builder() {
@@ -128,6 +147,10 @@ public class Allocation {
 
         public Builder updateAt(OffsetDateTime updateAt) {
             this.updateAt = updateAt;
+            return this;
+        }
+        public Builder createAt(OffsetDateTime createAt) {
+            this.createAt = createAt;
             return this;
         }
 
