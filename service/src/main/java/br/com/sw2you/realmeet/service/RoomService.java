@@ -43,7 +43,6 @@ public class RoomService {
     public void deleteRoom(Long id){
         Room room = getActiveRoomOrThrow(id);
         roomRepository.deactivate(id);
-
     }
 
     private Room getActiveRoomOrThrow(Long id) {
@@ -53,8 +52,8 @@ public class RoomService {
 
     @Transactional
     public void updateRoom(Long roomId, UpdateRoomDTO updateRoomDTO){
-        roomValidator.validate(roomId, updateRoomDTO);
         getActiveRoomOrThrow(roomId);
+        roomValidator.validate(roomId, updateRoomDTO);
         roomRepository.updateRoom(roomId, updateRoomDTO.getName(), updateRoomDTO.getSeats());
     }
 
