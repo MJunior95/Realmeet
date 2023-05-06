@@ -106,8 +106,9 @@ class RoomApiIntegrationTest extends BaseIntegrationTest {
 
     @Test
     void testUpdateRoomValidationError(){
+        var room = roomRepository.saveAndFlush(roomBuilder().build());
         assertThrows(HttpClientErrorException.UnprocessableEntity.class ,() ->
-                roomApi.updateRoom(4554l, new UpdateRoomDTO().name("room").seats(52)));
+                roomApi.updateRoom(room.getId(), new UpdateRoomDTO().name("room").seats(52)));
     }
 
 }
