@@ -16,13 +16,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class RoomService {
-    private final RoomRepository roomRepository;
+    private final RoomRepository repository;
     private final RoomMapper roomMapper;
 
     private final RoomValidator roomValidator;
 
     public RoomService(RoomRepository roomRepository, RoomMapper roomMapper, RoomValidator roomValidator) {
-        this.roomRepository = roomRepository;
+        this.repository = roomRepository;
         this.roomMapper = roomMapper;
         this.roomValidator = roomValidator;
 
@@ -35,26 +35,26 @@ public class RoomService {
     public RoomDTO createRoom(CreateRoomDTO createRoomDTO){
         roomValidator.validate(createRoomDTO);
          var room  = roomMapper.fromCreateRoomDTOToEntity(createRoomDTO);
-         roomRepository.save(room);
+         repository.save(room);
          return roomMapper.fromEntityToDto(room);
     }
 
     @Transactional
     public void deleteRoom(Long id){
         Room room = getActiveRoomOrThrow(id);
-        roomRepository.deactivate(id);
+        repository.deactivate(id);
     }
 
     private Room getActiveRoomOrThrow(Long id) {
         requireNonNull(id);
-        return roomRepository.findByIdAndActive(id, true).orElseThrow(() -> new RoomNotFoundException("Room: " + id + " not Found"));
+        return repository.findByIdAndActive(id, true).orElseThrow(() -> new RoomNotFoundException("Room: " + id + " not Found"));
     }
 
     @Transactional
     public void updateRoom(Long roomId, UpdateRoomDTO updateRoomDTO){
         getActiveRoomOrThrow(roomId);
         roomValidator.validate(roomId, updateRoomDTO);
-        roomRepository.updateRoom(roomId, updateRoomDTO.getName(), updateRoomDTO.getSeats());
+        repository.updateRoom(roomId, updateRoomDTO.getName(), updateRoomDTO.getSeats());
     }
 
 }
